@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import FormSubmit from './FromSubmit'
+import TodoList from './TodoList'
 
 export default function AddTodo () {
   const [ todoItems, setTodoItems ] = useState([])
-  const [ isComplete, setIsComplete ] = useState(false)
 
   function handleChange (e) {
     e.preventDefault()
@@ -21,34 +22,13 @@ export default function AddTodo () {
     e.target.reset()
   }
 
-  function toggleComplete () {
-    setIsComplete(prev => !prev)
-  }
-
   return (
     <>
-      <form onSubmit={handleChange}>
-        <input 
-          name="todo"
-        />
-        <button 
-          className="bnt"
-          type="submit"
-        >
-          Add
-        </button>
-      </form>
+      <FormSubmit handleChange={handleChange} />
       <ul className="todo_items">
         {todoItems.map(todoItem => {
           return (
-          <li className="todo_listItem" key={todoItem.id}>
-            <input 
-              type="checkbox"
-              onChange={toggleComplete}
-              checked={isComplete}
-            />
-            <span>{todoItem.title}</span>
-          </li>
+          <TodoList todoItem={todoItem} key={todoItem.id}/>
         )})}
       </ul>
     </>
