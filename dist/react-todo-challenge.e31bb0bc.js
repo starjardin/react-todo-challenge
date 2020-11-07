@@ -29787,26 +29787,33 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function FormSubmit(_ref) {
-  var handleChange = _ref.handleChange;
+  var handleSubmit = _ref.handleSubmit;
   return /*#__PURE__*/_react.default.createElement("form", {
-    onSubmit: handleChange
+    onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement("input", {
     name: "todo",
-    autoComplete: "off"
+    autoComplete: "off",
+    type: "text",
+    placeholder: "Add your todo list here",
+    required: true
   }), /*#__PURE__*/_react.default.createElement("button", {
-    className: "bnt",
+    className: "bnt add",
     type: "submit"
   }, "Add"));
 }
-},{"react":"node_modules/react/index.js"}],"useToggleComplet.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"components/TodoList.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = useToggleComplete;
+exports.default = TodoList;
 
-var _react = require("react");
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -29820,54 +29827,70 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function useToggleComplete() {
-  var _useState = (0, _react.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isComplete = _useState2[0],
-      setIsComplete = _useState2[1];
+function TodoList(_ref) {
+  var todoItem = _ref.todoItem,
+      toggleComplete = _ref.toggleComplete,
+      todoItems = _ref.todoItems,
+      setTodoItems = _ref.setTodoItems;
+  return function (toggleComplete) {
+    var _useState = (0, _react.useState)(false),
+        _useState2 = _slicedToArray(_useState, 2),
+        isComplete = _useState2[0],
+        setIsComplete = _useState2[1];
 
-  function toggleComplete() {
-    setIsComplete(function (prevIsCompleteState) {
-      return !prevIsCompleteState;
-    });
-  }
+    function toggleComplete() {
+      setIsComplete(todoItem.complete = !todoItem.complete);
+    }
 
-  return {
-    isComplete: isComplete,
-    toggleComplete: toggleComplete
-  };
+    function deleteItems() {
+      setTodoItems(todoItems.filter(function (item) {
+        return item.id !== todoItem.id;
+      }));
+    }
+
+    console.log(todoItems);
+    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("li", {
+      className: "todo_listItem"
+    }, /*#__PURE__*/_react.default.createElement("input", {
+      type: "checkbox",
+      onChange: toggleComplete,
+      checked: isComplete
+    }), /*#__PURE__*/_react.default.createElement("span", null, todoItem.title), /*#__PURE__*/_react.default.createElement("button", {
+      onClick: deleteItems,
+      className: "delete"
+    }, "Delete")), /*#__PURE__*/_react.default.createElement("hr", null));
+  }(toggleComplete);
 }
-},{"react":"node_modules/react/index.js"}],"components/TodoList.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"components/ToggleButtons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = TodoList;
+exports.default = ToggleButtons;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _useToggleComplet = _interopRequireDefault(require("../useToggleComplet"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function TodoList(_ref) {
-  var todoItem = _ref.todoItem;
-  console.log(todoItem);
-
-  var _useToggleComplete = (0, _useToggleComplet.default)(false),
-      isComplete = _useToggleComplete.isComplete,
-      toggleComplete = _useToggleComplete.toggleComplete;
-
-  return /*#__PURE__*/_react.default.createElement("li", {
-    className: "todo_listItem"
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    type: "checkbox",
-    onChange: toggleComplete,
-    checked: isComplete
-  }), /*#__PURE__*/_react.default.createElement("span", null, todoItem.title));
+function ToggleButtons(_ref) {
+  var handleButtonAll = _ref.handleButtonAll,
+      handleActiveTasks = _ref.handleActiveTasks,
+      handleCompleteTasks = _ref.handleCompleteTasks;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "buttons-container"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "toggle-btn",
+    onClick: handleButtonAll
+  }, "All"), /*#__PURE__*/_react.default.createElement("button", {
+    className: "toggle-btn",
+    onClick: handleActiveTasks
+  }, "Active"), /*#__PURE__*/_react.default.createElement("button", {
+    className: "toggle-btn",
+    onClick: handleCompleteTasks
+  }, "Complete"));
 }
-},{"react":"node_modules/react/index.js","../useToggleComplet":"useToggleComplet.js"}],"components/AddTodo.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"components/AddTodo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29880,6 +29903,91 @@ var _react = _interopRequireWildcard(require("react"));
 var _FromSubmit = _interopRequireDefault(require("./FromSubmit"));
 
 var _TodoList = _interopRequireDefault(require("./TodoList"));
+
+var _ToggleButtons = _interopRequireDefault(require("./ToggleButtons"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function AddTodo(_ref) {
+  var todoItems = _ref.todoItems,
+      handleSubmit = _ref.handleSubmit,
+      setTodoItems = _ref.setTodoItems,
+      activeTasks = _ref.activeTasks,
+      setActiveTasks = _ref.setActiveTasks,
+      completeTasks = _ref.completeTasks,
+      setCompleteTasks = _ref.setCompleteTasks;
+
+  function handleButtonAll() {
+    setTodoItems(todoItems);
+  }
+
+  function handleActiveTasks() {
+    setActiveTasks(todoItems.filter(function (item) {
+      return !item.complete;
+    }));
+    console.log(activeTasks);
+  }
+
+  function handleCompleteTasks() {
+    setCompleteTasks(todoItems.filter(function (item) {
+      return item.complete;
+    }));
+    console.log(completeTasks);
+  }
+
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_ToggleButtons.default, {
+    todoItems: todoItems,
+    setTodoItems: setTodoItems,
+    handleButtonAll: handleButtonAll,
+    handleActiveTasks: handleActiveTasks,
+    handleCompleteTasks: handleCompleteTasks
+  }), /*#__PURE__*/_react.default.createElement(_FromSubmit.default, {
+    handleSubmit: handleSubmit
+  }), /*#__PURE__*/_react.default.createElement("ul", {
+    className: "todo_items"
+  }, todoItems.map(function (todoItem) {
+    return /*#__PURE__*/_react.default.createElement(_TodoList.default, {
+      todoItem: todoItem,
+      key: todoItem.id,
+      todoItems: todoItems,
+      setTodoItems: setTodoItems
+    });
+  })));
+}
+},{"react":"node_modules/react/index.js","./FromSubmit":"components/FromSubmit.js","./TodoList":"components/TodoList.js","./ToggleButtons":"components/ToggleButtons.js"}],"components/Header.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Header;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Header() {
+  return /*#__PURE__*/_react.default.createElement("h1", null, "TODO");
+}
+},{"react":"node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = App;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _AddTodo = _interopRequireDefault(require("./components/AddTodo"));
+
+var _Header = _interopRequireDefault(require("./components/Header"));
+
+var _ToggleButtons = _interopRequireDefault(require("./components/ToggleButtons"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29907,13 +30015,23 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function AddTodo() {
+function App() {
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       todoItems = _useState2[0],
       setTodoItems = _useState2[1];
 
-  function handleChange(e) {
+  var _useState3 = (0, _react.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      activeTasks = _useState4[0],
+      setActiveTasks = _useState4[1];
+
+  var _useState5 = (0, _react.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      completeTasks = _useState6[0],
+      setCompleteTasks = _useState6[1];
+
+  function handleSubmit(e) {
     e.preventDefault();
     var value = e.target.todo.value;
     if (value.trim() === "") return;
@@ -29927,52 +30045,17 @@ function AddTodo() {
     e.target.reset();
   }
 
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_FromSubmit.default, {
-    handleChange: handleChange
-  }), /*#__PURE__*/_react.default.createElement("ul", {
-    className: "todo_items"
-  }, todoItems.map(function (todoItem) {
-    return /*#__PURE__*/_react.default.createElement(_TodoList.default, {
-      todoItem: todoItem,
-      key: todoItem.id
-    });
-  })));
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement(_AddTodo.default, {
+    todoItems: todoItems,
+    setTodoItems: setTodoItems,
+    handleSubmit: handleSubmit,
+    activeTasks: activeTasks,
+    setActiveTasks: setActiveTasks,
+    completeTasks: completeTasks,
+    setCompleteTasks: setCompleteTasks
+  }));
 }
-},{"react":"node_modules/react/index.js","./FromSubmit":"components/FromSubmit.js","./TodoList":"components/TodoList.js"}],"components/Header.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = Header;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Header() {
-  return /*#__PURE__*/_react.default.createElement("h1", null, "TODO");
-}
-},{"react":"node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = App;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _AddTodo = _interopRequireDefault(require("./components/AddTodo"));
-
-var _Header = _interopRequireDefault(require("./components/Header"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function App() {
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement(_AddTodo.default, null));
-}
-},{"react":"node_modules/react/index.js","./components/AddTodo":"components/AddTodo.js","./components/Header":"components/Header.js"}],"index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./components/AddTodo":"components/AddTodo.js","./components/Header":"components/Header.js","./components/ToggleButtons":"components/ToggleButtons.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -30012,7 +30095,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55053" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63393" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

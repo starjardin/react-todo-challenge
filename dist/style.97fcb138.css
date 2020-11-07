@@ -1,0 +1,73 @@
+body {
+  padding: 2rem;
+  max-width: 500px;
+  margin: auto;
+  background-color: #fefeef;
+}
+
+ul {
+  border-left: 2px solid #cccccc;
+}
+
+.buttons-container,
+li {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-block: 1rem;
+}
+
+.buttons-container {
+  border-bottom: 2px solid #cccccc;
+  margin-bottom: 2rem;
+}
+
+.buttons-container > button {
+  background-color: #ffffff;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+.buttons-container > button:active,
+.buttons-container > button:focus {
+  border-bottom: blue 2px solid;
+  outline: none;
+}
+
+[type=checkbox]:checked ~ span {
+  text-decoration: line-through;
+}
+
+[type=text] {
+  padding: 0.5rem;
+  border-radius: 3px;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  margin-right: 2rem;
+}
+
+[type=text]:focus {
+  outline: none;
+  border: 1px solid blue;
+}
+
+.add, .delete {
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  background-color: blue;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.add:focus {
+  border: none;
+  outline: none;
+  transform: scale(1.1);
+}
+
+/*# sourceMappingURL=/style.97fcb138.css.map */
