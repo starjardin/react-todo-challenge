@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import AddTodo from './components/AddTodo'
 import Header from './components/Header'
-import ToggleButtons from './components/ToggleButtons'
 
 export default function App () {
   const [ todoItems, setTodoItems ] = useState([])

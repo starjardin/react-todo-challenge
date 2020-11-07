@@ -29869,20 +29869,44 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = ToggleButtons;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function ToggleButtons(_ref) {
-  var handleButtonAll = _ref.handleButtonAll,
-      handleActiveTasks = _ref.handleActiveTasks,
-      handleCompleteTasks = _ref.handleCompleteTasks;
+  var activeTasks = _ref.activeTasks,
+      setActiveTasks = _ref.setActiveTasks,
+      completeTasks = _ref.completeTasks,
+      setCompleteTasks = _ref.setCompleteTasks,
+      todoItems = _ref.todoItems;
+  var activeRef = (0, _react.useRef)();
+
+  function handleButtonAll() {
+    setTodoItems(todoItems);
+  }
+
+  function handleActiveTasks() {
+    setActiveTasks(todoItems.filter(function (item) {
+      return !item.complete;
+    }));
+  }
+
+  function handleCompleteTasks() {
+    setCompleteTasks(todoItems.filter(function (item) {
+      return item.complete;
+    }));
+    console.log(completeTasks);
+  }
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "buttons-container"
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "toggle-btn",
     onClick: handleButtonAll
   }, "All"), /*#__PURE__*/_react.default.createElement("button", {
+    ref: activeRef,
     className: "toggle-btn",
     onClick: handleActiveTasks
   }, "Active"), /*#__PURE__*/_react.default.createElement("button", {
@@ -29898,7 +29922,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = AddTodo;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _FromSubmit = _interopRequireDefault(require("./FromSubmit"));
 
@@ -29908,10 +29932,6 @@ var _ToggleButtons = _interopRequireDefault(require("./ToggleButtons"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function AddTodo(_ref) {
   var todoItems = _ref.todoItems,
       handleSubmit = _ref.handleSubmit,
@@ -29920,31 +29940,13 @@ function AddTodo(_ref) {
       setActiveTasks = _ref.setActiveTasks,
       completeTasks = _ref.completeTasks,
       setCompleteTasks = _ref.setCompleteTasks;
-
-  function handleButtonAll() {
-    setTodoItems(todoItems);
-  }
-
-  function handleActiveTasks() {
-    setActiveTasks(todoItems.filter(function (item) {
-      return !item.complete;
-    }));
-    console.log(activeTasks);
-  }
-
-  function handleCompleteTasks() {
-    setCompleteTasks(todoItems.filter(function (item) {
-      return item.complete;
-    }));
-    console.log(completeTasks);
-  }
-
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_ToggleButtons.default, {
     todoItems: todoItems,
     setTodoItems: setTodoItems,
-    handleButtonAll: handleButtonAll,
-    handleActiveTasks: handleActiveTasks,
-    handleCompleteTasks: handleCompleteTasks
+    activeTasks: activeTasks,
+    setActiveTasks: setActiveTasks,
+    completeTasks: completeTasks,
+    setCompleteTasks: setCompleteTasks
   }), /*#__PURE__*/_react.default.createElement(_FromSubmit.default, {
     handleSubmit: handleSubmit
   }), /*#__PURE__*/_react.default.createElement("ul", {
@@ -29986,8 +29988,6 @@ var _react = _interopRequireWildcard(require("react"));
 var _AddTodo = _interopRequireDefault(require("./components/AddTodo"));
 
 var _Header = _interopRequireDefault(require("./components/Header"));
-
-var _ToggleButtons = _interopRequireDefault(require("./components/ToggleButtons"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30055,7 +30055,7 @@ function App() {
     setCompleteTasks: setCompleteTasks
   }));
 }
-},{"react":"node_modules/react/index.js","./components/AddTodo":"components/AddTodo.js","./components/Header":"components/Header.js","./components/ToggleButtons":"components/ToggleButtons.js"}],"index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./components/AddTodo":"components/AddTodo.js","./components/Header":"components/Header.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -30095,7 +30095,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63393" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49367" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

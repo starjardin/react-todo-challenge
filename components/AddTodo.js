@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FormSubmit from './FromSubmit'
 import TodoList from './TodoList'
 import ToggleButtons from './ToggleButtons'
@@ -14,29 +14,16 @@ export default function AddTodo (
   }
 ) {
 
-  function handleButtonAll () {
-    setTodoItems(todoItems)
-  }
-
-  function handleActiveTasks () {
-    setActiveTasks( todoItems.filter((item) => !item.complete))
-    console.log(activeTasks);
-  }
-
-
-  function handleCompleteTasks () {
-    setCompleteTasks(todoItems.filter((item) => item.complete))
-    console.log(completeTasks);
-  }
 
   return (
     <>
       <ToggleButtons 
         todoItems={todoItems}
         setTodoItems={setTodoItems}
-        handleButtonAll={handleButtonAll}
-        handleActiveTasks={handleActiveTasks}
-        handleCompleteTasks={handleCompleteTasks}
+        activeTasks={activeTasks}
+        setActiveTasks={setActiveTasks}
+        completeTasks={completeTasks}
+        setCompleteTasks={setCompleteTasks}
       />
       <FormSubmit handleSubmit={handleSubmit} />
       <ul className="todo_items">
